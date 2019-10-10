@@ -32,13 +32,16 @@ class Brackets
         $s_result = '';
         $i_pair_current = 0;
         while ($i_pair_current < $i_pair) {
+            // Manages nesting of brackets.
             for ($i = 0; $i < self::NESTING_MAX; $i++) {
                 $s_bracket_key = array_rand(self::BRACKETS);
                 $s_result .= $s_bracket_key;
+                // Collects closing brackets.
                 $a_close_brackets[] = self::BRACKETS[$s_bracket_key];
                 if(++$i_pair_current === $i_pair)
                     break;
             }
+            // Adds closing brackets to result.
             for ($i=count($a_close_brackets)-1; $i>=0; $i--) {
                 $s_result .= array_pop($a_close_brackets);
             }
@@ -58,12 +61,15 @@ class Brackets
         $a_close_brackets =[];
         for ($i=0; $i<strlen($s_brackets_string); $i++) {
             $s_bracket_current = $s_brackets_string[$i];
-            if(isset(self::BRACKETS[$s_bracket_current]))
+            if(isset(self::BRACKETS[$s_bracket_current])) {
+                // Collects closing brackets.
                 $a_close_brackets[] = self::BRACKETS[$s_bracket_current];
-            elseif ($s_bracket_current == array_pop($a_close_brackets))
+            // Extracts last element from array and compares with current.
+            } elseif ($s_bracket_current == array_pop($a_close_brackets)) {
                 continue;
-            else
+            } else {
                 return false;
+            }
         }
 
         return $a_close_brackets ? false : true;
