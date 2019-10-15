@@ -25,12 +25,17 @@ class Brackets
         $a_close_brackets =[];
         $s_result = '';
         $i_pair_current = 0;
+        $s_bracket_key_last ='';
         while ($i_pair_current < $i_pair) {
             $i_nesting = rand(1, $i_pair-$i_pair_current);
             // Manages nesting of brackets.
             for ($i = 0; $i < $i_nesting; $i++) {
-                $s_bracket_key = array_rand(self::BRACKETS);
+                // Excludes repetition of two identical brackets in a row.
+                do
+                    $s_bracket_key = array_rand(self::BRACKETS);
+                while($s_bracket_key == $s_bracket_key_last);
                 $s_result .= $s_bracket_key;
+                $s_bracket_key_last = $s_bracket_key;
                 // Collects closing brackets.
                 $a_close_brackets[] = self::BRACKETS[$s_bracket_key];
                 $i_pair_current++;
