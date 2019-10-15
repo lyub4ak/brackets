@@ -15,12 +15,6 @@ class Brackets
     ];
 
     /**
-     * Maximum nesting level of brackets in string.
-     */
-    const NESTING_MAX = 3;
-
-
-    /**
      * Generates random string of brackets.
      *
      * @param int $i_pair Count of brackets pairs.
@@ -32,14 +26,14 @@ class Brackets
         $s_result = '';
         $i_pair_current = 0;
         while ($i_pair_current < $i_pair) {
+            $i_nesting = rand(1, $i_pair-$i_pair_current);
             // Manages nesting of brackets.
-            for ($i = 0; $i < self::NESTING_MAX; $i++) {
+            for ($i = 0; $i < $i_nesting; $i++) {
                 $s_bracket_key = array_rand(self::BRACKETS);
                 $s_result .= $s_bracket_key;
                 // Collects closing brackets.
                 $a_close_brackets[] = self::BRACKETS[$s_bracket_key];
-                if(++$i_pair_current === $i_pair)
-                    break;
+                $i_pair_current++;
             }
             // Adds closing brackets to result.
             for ($i=count($a_close_brackets)-1; $i>=0; $i--) {
