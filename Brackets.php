@@ -40,8 +40,11 @@ class Brackets
                 $a_close_brackets[] = self::BRACKETS[$s_bracket_key];
                 $i_pair_current++;
             }
+
+            // Nesting of closing brackets.
+            $i_nesting_close = $i_pair_current!=$i_pair ? rand(1, $i_nesting) : count($a_close_brackets);
             // Adds closing brackets to result.
-            for ($i=count($a_close_brackets)-1; $i>=0; $i--) {
+            for ($i=0; $i<$i_nesting_close; $i++) {
                 $s_result .= array_pop($a_close_brackets);
             }
         }
